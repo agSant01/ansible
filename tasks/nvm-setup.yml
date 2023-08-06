@@ -1,0 +1,12 @@
+- name: Download and Install nvm
+  ansible.builtin.shell: 'curl -o https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash'
+  args:
+      creates: '{{ ansible_env.HOME }}/.nvm/nvm.sh'
+  tags:
+      - install
+      - node
+- name: Install lts version of Node and NPM
+  ansible.builtin.shell: 'bash -ic "nvm install --lts --latest-npm"'
+  tags:
+      - install
+      - node

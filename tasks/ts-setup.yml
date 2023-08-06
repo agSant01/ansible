@@ -1,0 +1,20 @@
+- name: Install Typescript server
+  npm:
+      name: typescript-language-server
+      global: yes
+  tags:
+      - ts
+
+- name: Install Typescript
+  npm:
+      name: typescript
+      global: yes
+  tags:
+      - ts
+
+- name: Install TS-Node
+  npm:
+      name: ts-node
+      global: yes
+  tags:
+      - ts

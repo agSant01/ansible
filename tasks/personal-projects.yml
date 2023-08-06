@@ -1,0 +1,67 @@
+- name: 'Personal Project: AdventOfCode Python Exists'
+  stat:
+      path: '{{ personal }}/advent-of-code-python'
+  register: aoc_py
+  tags:
+      - install
+      - personal-projects
+      - aoc
+- name: 'Personal Project: AdventOfCode Python'
+  ansible.builtin.git:
+      repo: 'git@github.com:agSant01/advent-of-code-python.git'
+      dest: '{{ personal }}/advent-of-code-python'
+  tags:
+      - install
+      - personal-projects
+      - aoc
+  when: aoc_py.stat.exists == False
+
+- name: 'Personal Project: AdventOfCode Rust Exists'
+  stat:
+      path: '{{ personal }}/aoc-rust'
+  register: aoc_rust
+  tags:
+      - install
+      - personal-projects
+      - aoc
+- name: 'Personal Project: AdventOfCode Rust'
+  ansible.builtin.git:
+      repo: 'git@github.com:agSant01/aoc-rust.git'
+      dest: '{{ personal }}/aoc-rust'
+  tags:
+      - install
+      - personal-projects
+      - aoc
+  when: aoc_rust.stat.exists == False
+
+- name: 'Personal Project: Coding Problems Exists'
+  stat:
+      path: '{{ personal }}/coding-problems'
+  register: codingprobs
+  tags:
+      - install
+      - personal-projects
+- name: 'Personal Project: Coding Problems'
+  ansible.builtin.git:
+      repo: 'git@github.com:agSant01/coding-problems.git'
+      dest: '{{ personal }}/coding-problems'
+  tags:
+      - install
+      - personal-projects
+  when: codingprobs.stat.exists == False
+
+- name: 'Personal Project: Random Meal Generator JS'
+  stat:
+      path: '{{ personal }}/coding-problems'
+  register: randmgjs
+  tags:
+      - install
+      - personal-projects
+- name: 'Personal Project: Coding Problems'
+  ansible.builtin.git:
+      repo: 'git@github.com:agSant01/random-meal-generator-js.git'
+      dest: '{{ personal }}/random-meal-generator-js'
+  tags:
+      - install
+      - personal-projects
+  when: randmgjs.stat.exists == False
