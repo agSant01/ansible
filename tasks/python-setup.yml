@@ -1,0 +1,7 @@
+- name: Install Python3 and Virtualenv
+  become: true
+  apt:
+      name: ['python3.10', 'virtualenv']
+  tags:
+      - install
+      - python

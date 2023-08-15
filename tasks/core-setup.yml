@@ -19,12 +19,12 @@
   apt:
       name:
           [
+              'git',
               'curl',
               'htop',
               'golang',
               'lsof',
               'ccache',
-              'python3-pip',
               'dconf-editor',
               'moreutils',
           ]

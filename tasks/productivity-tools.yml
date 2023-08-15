@@ -1,4 +1,4 @@
-- name: Install packages
+- name: Install developer productivity packages (tmux, tldr, fzf, etc.)
   become: true
   apt:
       name: ['tmux', 'fzf', 'xclip', 'screenkey', 'tldr', 'ripgrep']

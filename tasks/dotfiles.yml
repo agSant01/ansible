@@ -20,6 +20,17 @@
 
 - name: Stow dotfiles
   shell: cd $HOME/.dotfiles && ./install
+  args:
+      creates: '{{ ansible_env.HOME }}/.custom_dotfiles_env'
+  register: out
+  tags:
+      - install
+      - dotfiles
+      - stow
+
+- name: .dotfiles install stdout
+  ansible.builtin.debug:
+      msg: '{{ out.stdout_lines }}'
   tags:
       - install
       - dotfiles

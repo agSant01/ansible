@@ -7,7 +7,7 @@ THE Youtube explainer: <https://www.youtube.com/watch?v=qd3mfYS_Xow&pp=ygUaZnJvb
 To start setup just copy/pasta:
 
 ```bash
-./install && ansible-playbook -t dotfiles --ask-become-pass --ask-vault-pass local.yml 
+./install && ansible-playbook -t dotfiles --ask-become-pass --ask-vault-pass local.yml
 ```
 
 ## TLDR;
@@ -15,11 +15,11 @@ To start setup just copy/pasta:
 ### Encrypt/Decrypt File
 
 ```bash
-ansible-vault encrypt <file_path> > /path/to/auth_codes
+ansible-vault encrypt <file_path>
 ```
 
 ```bash
-ansible-vault decrypt <file_path> > /path/to/auth_codes
+ansible-vault decrypt <file_path>
 ```
 
 ### Tags
