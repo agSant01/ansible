@@ -1,20 +1,17 @@
-- name: Install Typescript server
-  npm:
-      name: typescript-language-server
-      global: yes
-  tags:
-      - ts
+- name: Setup Typescript
+  tags: ts
+  block:
+      - name: Install Typescript server
+        community.general.npm:
+            name: typescript-language-server
+            global: true
 
-- name: Install Typescript
-  npm:
-      name: typescript
-      global: yes
-  tags:
-      - ts
+      - name: Install Typescript
+        community.general.npm:
+            name: typescript
+            global: true
 
-- name: Install TS-Node
-  npm:
-      name: ts-node
-      global: yes
-  tags:
-      - ts
+      - name: Install TS-Node
+        community.general.npm:
+            name: ts-node
+            global: true

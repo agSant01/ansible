@@ -1,0 +1,39 @@
+- name: 'Fd-find setup'
+  vars:
+      fd_architecture: x86_64-unknown-linux-musl
+  block:
+      - name: Check latest fd-find
+        register: fdfind_latest
+        ansible.builtin.uri:
+            url: 'https://api.github.com/repos/sharkdp/fd/releases/latest'
+            return_content: true
+
+      - name: Create temp dir
+        ansible.builtin.file:
+            path: '/tmp/fdfind'
+            state: directory
+            mode: '0755'
+
+      - name: 'Downloading fd-find {{ fdfind_latest.json.tag_name }}'
+        register: fdfind_repo
+        ansible.builtin.unarchive:
+            remote_src: true
+            src: 'https://github.com/sharkdp/fd/releases/download/{{ fdfind_latest.json.tag_name }}/fd-{{ fdfind_latest.json.tag_name }}-{{ fd_architecture }}.tar.gz' # noqa: yaml[line-length]
+            dest: '/tmp/fdfind'
+            keep_newer: true
+            extra_opts:
+                - --strip=1
+                - --no-anchored
+
+      - name: 'Move executable to {{ ansible_env.HOME }}/.local/bin' # noqa: name[template]
+        ansible.builtin.copy:
+            src: '{{ fdfind_repo.dest }}/fd'
+            dest: '{{ ansible_env.HOME }}/.local/bin/fd'
+            mode: '0755'
+
+      - name: Add fd-find to man pages
+        become: true
+        ansible.builtin.copy:
+            src: '{{ fdfind_repo.dest }}/fd.1'
+            dest: '/usr/local/man/man1/fd.1'
+            mode: '0444'

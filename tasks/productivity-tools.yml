@@ -1,7 +1,11 @@
-- name: Install developer productivity packages (tmux, tldr, fzf, etc.)
+- name: Productivity tools
   become: true
-  apt:
-      name: ['tmux', 'fzf', 'xclip', 'screenkey', 'tldr', 'ripgrep']
-  tags:
-      - install
-      - productivity
+  tags: ['install', 'productivity']
+  block:
+    - name: 'Install developer productivity packages (tmux, tldr, fzf, etc.)'
+      ansible.builtin.apt:
+        name: ['tmux', 'xclip', 'screenkey', 'tldr', 'ripgrep']
+    - name: 'Fd-find setup'
+      ansible.builtin.import_tasks: productivity/fdfind.yml
+    - name: 'Fzf setup'
+      ansible.builtin.import_tasks: productivity/fzf.yml

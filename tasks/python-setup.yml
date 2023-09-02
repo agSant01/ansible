@@ -1,7 +1,11 @@
-- name: Install Python3 and Virtualenv
-  become: true
-  apt:
-      name: ['python3.10', 'virtualenv']
-  tags:
-      - install
-      - python
+- name: Setup python
+  tags: ['install', 'python']
+  block:
+      - name: Install Python3 and Virtualenv
+        become: true
+        ansible.builtin.apt:
+            name: ['python3.10', 'virtualenv']
+
+      - name: Install pip packages (ansible-lint, etc.)
+        ansible.builtin.pip:
+            name: ['ansible-lint']

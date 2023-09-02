@@ -1,7 +1,7 @@
 - name: Install Yarn
   npm:
       name: yarn
-      global: yes
+      global: true
   tags:
       - install
       - node
@@ -9,7 +9,7 @@
 - name: Install eslint
   npm:
       name: eslint
-      global: yes
+      global: true
   tags:
       - install
       - node

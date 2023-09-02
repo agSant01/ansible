@@ -1,0 +1,15 @@
+- name: 'Fzf setup'
+  block:
+      - name: 'Downloading fzf' # noqa: latest[git]
+        register: fzf_installer
+        ansible.builtin.git:
+            repo: https://github.com/junegunn/fzf.git
+            dest: '{{ ansible_env.HOME }}/.fzf'
+            depth: 1
+            update: true
+            version: HEAD
+      - name: Installing fzf # noqa: no-changed-when
+        ansible.builtin.shell:
+            cmd: '{{ ansible_env.HOME }}/.fzf/install'
+            executable: /bin/bash
+        when: fzf_installer.after != fzf_installer.before
