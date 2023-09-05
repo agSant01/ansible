@@ -9,3 +9,5 @@
       ansible.builtin.import_tasks: productivity/fdfind.yml
     - name: 'Fzf setup'
       ansible.builtin.import_tasks: productivity/fzf.yml
+    - name: 'Setup cht.sh'
+      ansible.builtin.import_tasks: productivity/cheatsh.yml
