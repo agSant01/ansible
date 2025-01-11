@@ -1,4 +1,5 @@
 - name: 'Fzf setup'
+  become: false
   block:
       - name: 'Downloading fzf' # noqa: latest[git]
         register: fzf_installer

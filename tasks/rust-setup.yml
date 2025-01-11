@@ -1,0 +1,32 @@
+- name: Install Rust using rustup
+  # become: true
+  tags: [rust, lang, install]
+  block:
+      - name: Install Rust using rustup
+        ansible.builtin.shell:
+            cmd: |
+                set -o pipefail |
+                curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+            creates: '{{ ansible_env.HOME }}/.cargo/bin/rustc'
+            stdin: 1
+        environment:
+            CARGO_HOME: '{{ ansible_env.HOME }}/.cargo'
+            RUSTUP_HOME: '{{ ansible_env.HOME }}/.rustup'
+
+      - name: Verify "rustup" installation
+        ansible.builtin.command: '{{ ansible_env.HOME }}/.cargo/bin/rustup --version'
+        register: rustup_version
+        changed_when: true
+
+      - name: Show "rustup" installed
+        ansible.builtin.debug:
+            msg: '{{ rustup_version.stdout }}'
+
+      - name: Verify "rustc" installation
+        ansible.builtin.command: '{{ ansible_env.HOME }}/.cargo/bin/rustc --version'
+        register: rustc_version
+        changed_when: true
+
+      - name: Show "rustc" installed
+        ansible.builtin.debug:
+            msg: '{{ rustc_version.stdout }}'
