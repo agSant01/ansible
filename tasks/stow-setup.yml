@@ -1,0 +1,67 @@
+- name: Download and Install Stow with GPG Signature Validation
+  tags:
+      - install
+      - dotfiles
+      - stow-bin
+  block:
+      - name: Install CPANM
+        ansible.builtin.shell:
+            cmd: |
+                set -o pipefail |
+                curl -L https://cpanmin.us | perl - --sudo App::cpanminus
+        changed_when: true
+
+      - name: Install Test::Output
+        ansible.builtin.command:
+            cmd: cpanm Test::Output
+        changed_when: true
+
+      - name: Download the stow package
+        ansible.builtin.get_url:
+            url: http://ftp.gnu.org/gnu/stow/stow-latest.tar.gz
+            dest: '/tmp/stow-latest.tar.gz'
+            mode: '0644'
+
+      - name: Download the GPG signature for the package
+        ansible.builtin.get_url:
+            url: http://ftp.gnu.org/gnu/stow/stow-latest.tar.gz.sig
+            dest: '/tmp/stow-latest.tar.gz.sig'
+            mode: '0644'
+
+      - name: Download the GNU GPG Public Key package
+        ansible.builtin.get_url:
+            url: http://ftp.gnu.org/gnu/gnu-keyring.gpg
+            dest: '/tmp/gnu-keyring.gpg'
+            mode: '0644'
+
+      - name: Verify the signature of the downloaded file
+        ansible.builtin.shell:
+            cmd: 'gpgv --keyring /tmp/gnu-keyring.gpg /tmp/stow-latest.tar.gz.sig /tmp/stow-latest.tar.gz 2>&1'
+        register: gpg_result
+        failed_when: "'Good signature' not in gpg_result.stdout"
+        changed_when: true
+
+      - name: Fail the play if GPG verification failed
+        ansible.builtin.fail:
+            msg: 'GPG signature verification failed!'
+        when: gpg_result.rc != 0
+
+      - name: Extract the stow package
+        ansible.builtin.unarchive:
+            src: '/tmp/stow-latest.tar.gz'
+            dest: '/tmp'
+            list_files: true
+        register: extract_result
+
+      - name: Set the extracted filename
+        ansible.builtin.set_fact:
+            extracted_filename: '{{ extract_result.files[0] }}'
+
+      - name: Install Stow
+        become: true
+        ansible.builtin.shell:
+            cmd: |
+                set -o pipefail |
+                ./configure && make install
+            chdir: '/tmp/{{ extracted_filename }}'
+        changed_when: true

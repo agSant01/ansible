@@ -1,5 +1,6 @@
 - name: Download and Install nvm
-  ansible.builtin.shell: >
+  ansible.builtin.shell: |
+      set -o pipefail
       curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash
   args:
       executable: /bin/bash
