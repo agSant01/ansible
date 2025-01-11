@@ -1,6 +1,6 @@
 - name: Install System Packages 1 (build-essential, cmake, pkg-config, pthread)
   become: true
-  apt:
+  ansible.builtin.apt:
       name: ['build-essential', 'cmake', 'pkg-config', 'libpthread-stubs0-dev']
   tags:
       - install
@@ -8,7 +8,7 @@
 
 - name: Install System Packages 2 (unzip, libtool, libtool-bin)
   become: true
-  apt:
+  ansible.builtin.apt:
       name: ['unzip', 'libtool', 'libtool-bin']
   tags:
       - install
@@ -16,18 +16,25 @@
 
 - name: Install System Packages 3 (the rest)
   become: true
-  apt:
+  ansible.builtin.apt:
       name:
           [
               'git',
               'curl',
               'htop',
-              'golang',
               'lsof',
               'ccache',
               'dconf-editor',
               'moreutils',
+              'xdg-utils',
           ]
   tags:
       - install
       - core
+
+- name: Install System Packages for WSL2 compatibility
+  become: true
+  ansible.builtin.apt:
+      name: ['wslu']
+  tags:
+      - wsl

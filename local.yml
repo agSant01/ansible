@@ -15,13 +15,14 @@
             - install
             - core
   tasks:
-      - ansible.builtin.import_tasks: tasks/ssh.yml
       - ansible.builtin.import_tasks: tasks/core-setup.yml
-      - ansible.builtin.import_tasks: tasks/python-setup.yml
-      - ansible.builtin.import_tasks: tasks/nvm-setup.yml
-      - ansible.builtin.import_tasks: tasks/npm-packages.yml
-      - ansible.builtin.import_tasks: tasks/ts-setup.yml
-      - ansible.builtin.import_tasks: tasks/personal-projects.yml
       - ansible.builtin.import_tasks: tasks/dotfiles.yml
       - ansible.builtin.import_tasks: tasks/git-setup.yml
+      - ansible.builtin.import_tasks: tasks/golang-setup.yml
+      - ansible.builtin.import_tasks: tasks/npm-packages.yml
+      - ansible.builtin.import_tasks: tasks/nvm-setup.yml
+      - ansible.builtin.import_tasks: tasks/personal-projects.yml
       - ansible.builtin.import_tasks: tasks/productivity-tools.yml
+      - ansible.builtin.import_tasks: tasks/python-setup.yml
+      - ansible.builtin.import_tasks: tasks/ssh.yml
+      - ansible.builtin.import_tasks: tasks/ts-setup.yml

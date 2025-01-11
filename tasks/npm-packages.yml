@@ -1,5 +1,5 @@
 - name: Install Yarn
-  npm:
+  community.general.npm:
       name: yarn
       global: true
   tags:
@@ -7,7 +7,7 @@
       - node
 
 - name: Install eslint
-  npm:
+  community.general.npm:
       name: eslint
       global: true
   tags:

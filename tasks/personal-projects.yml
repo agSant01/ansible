@@ -3,11 +3,11 @@
   become: false
   block:
       - name: 'Personal Project: Coding Problems Exists'
-        register: codingprobs
+        register: coding_problems
         ansible.builtin.stat:
             path: '{{ personal }}/coding-problems'
       - name: 'Personal Project: Coding Problems' # noqa: latest[git]
-        when: codingprobs.stat.exists
+        when: coding_problems.stat.exists == 0
         ansible.builtin.git:
             repo: 'git@github.com:agSant01/coding-problems.git'
             dest: '{{ personal }}/coding-problems'
@@ -16,10 +16,9 @@
       - name: 'Personal Project: Random Meal Generator JS'
         register: randmgjs
         ansible.builtin.stat:
-            path: '{{ personal }}/coding-problems'
-
-      - name: 'Personal Project: Coding Problems' # noqa: latest[git]
-        when: randmgjs.stat.exists
+            path: '{{ personal }}/random-meal-generator-js'
+      - name: 'Personal Project: Random Meal Generator JS' # noqa: latest[git]
+        when: randmgjs.stat.exists == 0
         ansible.builtin.git:
             repo: 'git@github.com:agSant01/random-meal-generator-js.git'
             dest: '{{ personal }}/random-meal-generator-js'
@@ -32,7 +31,7 @@
               ansible.builtin.stat:
                   path: '{{ personal }}/advent-of-code-python'
             - name: 'Personal Project: AdventOfCode Python' # noqa: latest[git]
-              when: aoc_py.stat.exists
+              when: aoc_py.stat.exists == 0
               ansible.builtin.git:
                   repo: 'git@github.com:agSant01/advent-of-code-python.git'
                   dest: '{{ personal }}/advent-of-code-python'
@@ -42,7 +41,7 @@
                   path: '{{ personal }}/aoc-rust'
               register: aoc_rust
             - name: 'Personal Project: AdventOfCode Rust' # noqa: latest[git]
-              when: aoc_rust.stat.exists
+              when: aoc_rust.stat.exists == 0
               ansible.builtin.git:
                   repo: 'git@github.com:agSant01/aoc-rust.git'
                   dest: '{{ personal }}/aoc-rust'

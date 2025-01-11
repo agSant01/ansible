@@ -10,6 +10,6 @@
             version: HEAD
       - name: Installing fzf # noqa: no-changed-when
         ansible.builtin.shell:
-            cmd: '{{ ansible_env.HOME }}/.fzf/install'
+            cmd: '{{ ansible_env.HOME }}/.fzf/install --all'
             executable: /bin/bash
         when: fzf_installer.after != fzf_installer.before

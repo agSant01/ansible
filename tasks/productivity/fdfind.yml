@@ -31,6 +31,12 @@
             dest: '{{ ansible_env.HOME }}/.local/bin/fd'
             mode: '0755'
 
+      - name: Create /usr/local/man/man1 if it doesn't exist
+        ansible.builtin.file:
+            path: /usr/local/man/man1
+            state: directory
+            mode: '0755'
+
       - name: Add fd-find to man pages
         become: true
         ansible.builtin.copy:

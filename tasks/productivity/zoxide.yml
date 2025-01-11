@@ -1,0 +1,8 @@
+- name: Download and Install Zoxide
+  tags: zoxide
+  when: true
+  ansible.builtin.shell:
+    cmd: set -o pipefail && curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+    chdir: '{{ ansible_env.HOME }}'
+    executable: /bin/bash
+    creates: '{{ ansible_env.HOME }}/.local/bin/zoxide'

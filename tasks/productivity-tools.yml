@@ -1,8 +1,8 @@
 - name: Productivity tools
-  become: true
   tags: ['install', 'productivity']
   block:
     - name: 'Install developer productivity packages (tmux, tldr, fzf, etc.)'
+      become: true
       ansible.builtin.apt:
         name: ['tmux', 'xclip', 'screenkey', 'tldr', 'ripgrep', 'tree']
     - name: 'Fd-find setup'
@@ -11,3 +11,5 @@
       ansible.builtin.import_tasks: productivity/fzf.yml
     - name: 'Setup cht.sh'
       ansible.builtin.import_tasks: productivity/cheatsh.yml
+    - name: 'Zoxide setup'
+      ansible.builtin.import_tasks: productivity/zoxide.yml

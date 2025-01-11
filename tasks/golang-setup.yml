@@ -1,0 +1,37 @@
+- name: Install Go (Golang)
+  become: true
+  tags:
+      - go
+      - lang
+      - core
+  vars:
+      golang_version: '1.23.4'
+      golang_download_url: 'https://go.dev/dl/go{{ golang_version }}.linux-amd64.tar.gz'
+      golang_install_path: '/usr/local'
+
+  block:
+      - name: Download Go tarball from {{ golang_download_url }}
+        ansible.builtin.get_url:
+            url: '{{ golang_download_url }}'
+            dest: /tmp/go-{{ golang_version }}.tar.gz
+            mode: '0644'
+
+      - name: Remove old Go installation if exists
+        ansible.builtin.file:
+            path: '{{ golang_install_path }}/go'
+            state: absent
+
+      - name: Extract Go tarball
+        ansible.builtin.unarchive:
+            src: /tmp/go-{{ golang_version }}.tar.gz
+            dest: '{{ golang_install_path }}'
+            remote_src: true
+
+      - name: Verify Go installation
+        ansible.builtin.command: '{{ golang_install_path }}/go/bin/go version'
+        register: go_version_output
+        changed_when: true
+
+      - name: Show Go version installed
+        ansible.builtin.debug:
+            msg: '{{ go_version_output.stdout }}'

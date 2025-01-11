@@ -1,8 +1,24 @@
 - name: 'Setup cht.sh'
+  tags: 'chtsh'
   block:
-      - name: 'Downloading cht.sh executable to .local/bin'
-        ansible.builtin.get_url:
-            url: https://cht.sh/:cht.sh
-            dest: '{{ ansible_env.HOME }}/.local/bin'
-            mode: '0755'
-            force: true
+    - name: 'Downloading cht.sh executable to .local/bin'
+      ansible.builtin.get_url:
+        url: https://cht.sh/:cht.sh
+        dest: '{{ ansible_env.HOME }}/.local/bin'
+        mode: '0755'
+        force: true
+    - name: Check autocompletion dir
+      ansible.builtin.file:
+        path: '{{ ansible_env.HOME }}/.bash.d'
+        state: directory
+        mode: '0755'
+        recurse: true
+    - name: Set autocompletion for cht.sh
+      ansible.builtin.get_url:
+        url: https://cheat.sh/:bash_completion
+        dest: '{{ ansible_env.HOME }}/.bash.d/cht.sh'
+        mode: '0644'
+        force: true
+        validate_certs: false
+        headers:
+          User-Agent: curl

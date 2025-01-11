@@ -9,11 +9,10 @@
       - node
 
 - name: Install lts version of Node and NPM
-  ansible.builtin.shell: >
-      . {{ ansible_env.HOME }}/.nvm/nvm.sh && nvm install --lts --latest-npm
+  ansible.builtin.shell: 'source {{ ansible_env.HOME }}/.nvm/nvm.sh; nvm install --lts --latest-npm'
+  become: true
   args:
       executable: /bin/bash
-      chdir: '{{ ansible_env.HOME }}'
       creates: '{{ ansible_env.HOME }}/.nvm/versions/node'
   tags:
       - install

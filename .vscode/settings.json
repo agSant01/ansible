@@ -1,3 +1,19 @@
 {
-    "ansible.python.interpreterPath": "/usr/bin/python3"
+    "ansible.python.interpreterPath": "/usr/bin/python3",
+    "yaml.schemas": {
+        "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/playbook": [
+            "file:///home/gbrl/ansible/tasks/python-setup.yml"
+        ],
+        "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/tasks": [
+            "file:///home/gbrl/ansible/tasks/productivity/cheatsh.yml",
+            "file:///home/gbrl/ansible/tasks/productivity/fdfind.yml",
+            "file:///home/gbrl/ansible/tasks/productivity/zoxide.yml",
+            "file:///home/gbrl/ansible/tasks/productivity/fzf.yml"
+        ]
+    },
+    "yaml.format.enable": true,
+    "files.associations": {
+        "*.yml": "ansible"
+    },
+    "yaml.schemaStore.url": "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/tasks"
 }
