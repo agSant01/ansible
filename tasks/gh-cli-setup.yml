@@ -1,0 +1,37 @@
+- name: Install GitHub CLI from GitHub Release
+  become: true
+  tags: [gh, core, install]
+  block:
+      - name: Get the latest GitHub CLI release URL (Linux)
+        ansible.builtin.uri:
+            url: 'https://api.github.com/repos/cli/cli/releases/latest'
+            method: GET
+            return_content: true
+        register: release_info
+
+      - name: Extract download URL for the .deb package (Debian-based)
+        ansible.builtin.set_fact:
+            gh_download_url: |
+                {{ release_info.json.assets | selectattr('name', 'search', 'gh_.*_linux_amd64.deb')
+                | map(attribute='browser_download_url') | first }}
+
+      - name: Download GitHub CLI package
+        ansible.builtin.get_url:
+            url: '{{ gh_download_url }}'
+            dest: '/tmp/gh_cli_package_linux_amd64.deb'
+            mode: '0644'
+
+      - name: Install GitHub CLI on Debian-based systems
+        ansible.builtin.apt:
+            deb: '/tmp/gh_cli_package_linux_amd64.deb'
+            state: present
+        when: ansible_os_family == "Debian"
+
+      - name: Verify GitHub CLI installation
+        ansible.builtin.command: 'gh --version'
+        register: gh_version_output
+        changed_when: true
+
+      - name: Show GitHub CLI version installed
+        ansible.builtin.debug:
+            msg: '{{ gh_version_output.stdout }}'
