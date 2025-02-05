@@ -15,3 +15,5 @@
         ansible.builtin.import_tasks: productivity/cheatsh.yml
       - name: 'Zoxide setup'
         ansible.builtin.import_tasks: productivity/zoxide.yml
+      - name: 'jqlang/jq setup' # noqa:name[casing]
+        ansible.builtin.import_tasks: productivity/jq-setup.yml

@@ -1,0 +1,53 @@
+- name: Install Bun.js
+  become: false
+  tags:
+      - bunjs
+      - lang
+      - core
+  vars:
+      bun_version: 'bun-v1.2.2'
+      bun_platform: 'linux-x64'
+      bun_download_url: 'https://github.com/oven-sh/bun/releases/download/{{ bun_version }}/bun-{{ bun_platform }}.zip'
+      bun_install_path: '{{ ansible_env.HOME }}/.bun/bin'
+
+  block:
+      - name: Download bun zip from {{ bun_download_url }}
+        ansible.builtin.get_url:
+            url: '{{ bun_download_url }}'
+            dest: '{{ bun_install_path }}/bun-{{ bun_platform }}.zip'
+            mode: '0644'
+
+      - name: Extract bun ZIP
+        ansible.builtin.unarchive:
+            src: '{{ bun_install_path }}/bun-{{ bun_platform }}.zip'
+            dest: '{{ bun_install_path }}'
+            remote_src: true
+            mode: '0755'
+
+      - name: Moving extracted bun to destination
+        changed_when: true
+        ansible.builtin.command:
+            cmd: mv {{ bun_install_path }}/bun-{{ bun_platform }}/bun {{ bun_install_path }}
+
+      - name: Cleanup files in {{ bun_install_path }}
+        ansible.builtin.file:
+            path: '{{ item }}'
+            state: absent
+        loop:
+            - '{{ bun_install_path }}/bun-{{ bun_platform }}.zip'
+            - '{{ bun_install_path }}/bun-{{ bun_platform }}'
+
+      - name: Verify bun installation
+        ansible.builtin.command: '{{ bun_install_path }}/bun --version'
+        register: bun_version_output
+        changed_when: true
+
+      - name: Show bun version installed
+        ansible.builtin.debug:
+            msg: '{{ bun_version_output.stdout }}'
+
+      - name: Creating autocompletion
+        become: true
+        ansible.builtin.shell:
+            cmd: '{{ bun_install_path }}/bun completions > /usr/share/bash-completion/completions/bun'
+            creates: /usr/share/bash-completion/completions/bun

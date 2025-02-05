@@ -20,6 +20,7 @@
       - ansible.builtin.import_tasks: tasks/dotfiles.yml
       - ansible.builtin.import_tasks: tasks/gh-cli-setup.yml
       - ansible.builtin.import_tasks: tasks/git-setup.yml
+      - ansible.builtin.import_tasks: tasks/bun-setup.yml
       - ansible.builtin.import_tasks: tasks/golang-setup.yml
       - ansible.builtin.import_tasks: tasks/npm-packages.yml
       - ansible.builtin.import_tasks: tasks/nvm-setup.yml

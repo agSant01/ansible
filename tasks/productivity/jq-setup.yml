@@ -1,0 +1,28 @@
+- name: Install jqlang/jq
+  become: false
+  tags:
+      - jqlang
+      - jq
+      - lang
+      - core
+  vars:
+      version: '1.7.1'
+      platform: 'linux-amd64'
+      download_url: 'https://github.com/jqlang/jq/releases/download/jq-{{ version }}/jq-{{ platform }}'
+      install_path: '{{ ansible_env.HOME }}/.local/bin'
+
+  block:
+      - name: Download jq binary zip from {{ download_url }}
+        ansible.builtin.get_url:
+            url: '{{ download_url }}'
+            dest: '{{ install_path }}/jq'
+            mode: '0755'
+
+      - name: Verify  installation
+        ansible.builtin.command: '{{ install_path }}/jq --version'
+        register: version_output
+        changed_when: true
+
+      - name: Show jq  version installed
+        ansible.builtin.debug:
+            msg: '{{ version_output.stdout }}'
