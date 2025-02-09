@@ -7,7 +7,7 @@
             dest: '{{ ansible_env.HOME }}/.local/bin'
             mode: '0755'
             force: true
-      - name: Check autocompletion dir
+      - name: Create if not exists autocompletion dir {{ ansible_env.HOME }}/.bash.d # noqa:name[template]
         ansible.builtin.file:
             path: '{{ ansible_env.HOME }}/.bash.d'
             state: directory

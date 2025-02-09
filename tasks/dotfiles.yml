@@ -11,7 +11,7 @@
       - dotfiles
       - stow
 
-- name: Stow dotfiles
+- name: Stow .dotfiles in {{ ansible_env.HOME }}
   ansible.builtin.shell: cd $HOME/.dotfiles && ./install.sh
   args:
       creates: '{{ ansible_env.HOME }}/.custom_dotfiles_env'
@@ -21,7 +21,8 @@
       - dotfiles
       - stow
 
-- name: .dotfiles install stdout
+- name: .dotfiles install check
+  failed_when: "'Warning' in out.stdout_lines"
   ansible.builtin.debug:
       msg: '{{ out.stdout_lines }}'
   tags:

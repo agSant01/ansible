@@ -25,6 +25,13 @@
                 - --strip=1
                 - --no-anchored
 
+      - name: Ensure '{{ ansible_env.HOME }}/.local/bin' exists # noqa: name[template]
+        ansible.builtin.file:
+            path: '{{ ansible_env.HOME }}/.local/bin'
+            state: directory
+            mode: '0755'
+            recurse: true
+
       - name: 'Move executable to {{ ansible_env.HOME }}/.local/bin' # noqa: name[template]
         ansible.builtin.copy:
             src: '{{ fdfind_repo.dest }}/fd'
@@ -32,9 +39,13 @@
             mode: '0755'
 
       - name: Create /usr/local/man/man1 if it doesn't exist
+        become: true
         ansible.builtin.file:
-            path: /usr/local/man/man1
+            path: '/usr/local/man/man1/'
             state: directory
+            recurse: true
+            follow: true
+            force: false
             mode: '0755'
 
       - name: Add fd-find to man pages
@@ -42,4 +53,4 @@
         ansible.builtin.copy:
             src: '{{ fdfind_repo.dest }}/fd.1'
             dest: '/usr/local/man/man1/fd.1'
-            mode: '0444'
+            mode: '0644'

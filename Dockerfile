@@ -12,13 +12,17 @@ RUN apt-get update && \
     apt-get autoremove --yes
 
 FROM base AS prime
-ARG TAGS
-RUN addgroup --gid 1000 gsant
-RUN adduser --gecos gsant --uid 1000 --gid 1000 --disabled-password gsant
-USER gsant
-WORKDIR /home/gsant
+RUN apt-get update && apt-get install -y sudo
+
+RUN adduser --uid 1000 --disabled-password admin
+RUN echo "admin:root" | chpasswd
+RUN adduser admin sudo
+
+USER admin
+WORKDIR /home/admin
+
+ENV USER=admin
 
 FROM prime
-COPY . .
-CMD ["sh", "-c", "ansible-playbook $TAGS local.yml"]
-
+COPY . ansible
+ENTRYPOINT [ "/bin/bash" ]

@@ -1,15 +1,14 @@
-- name: Install Yarn
-  community.general.npm:
-      name: yarn
-      global: true
+- name: Download and Install NPM packages
   tags:
-      - install
       - node
+      - npm
+  block:
+      - name: Install Yarn
+        community.general.npm:
+            name: yarn
+            global: true
 
-- name: Install eslint
-  community.general.npm:
-      name: eslint
-      global: true
-  tags:
-      - install
-      - node
+      - name: Install eslint
+        community.general.npm:
+            name: eslint
+            global: true

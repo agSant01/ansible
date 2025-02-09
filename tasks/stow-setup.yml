@@ -13,9 +13,10 @@
                 curl -L https://cpanmin.us | perl - --sudo App::cpanminus
 
       - name: Install Test::Output
+        register: test_output_install
+        changed_when: "'Working on' in test_output_install.stdout"
         ansible.builtin.command:
             cmd: cpanm Test::Output
-        changed_when: true
 
       - name: Download the stow package
         ansible.builtin.get_url:
@@ -40,7 +41,7 @@
             cmd: 'gpgv --keyring /tmp/gnu-keyring.gpg /tmp/stow-latest.tar.gz.sig /tmp/stow-latest.tar.gz 2>&1'
         register: gpg_result
         failed_when: "'Good signature' not in gpg_result.stdout"
-        changed_when: true
+        changed_when: false
 
       - name: Fail the play if GPG verification failed
         ansible.builtin.fail:

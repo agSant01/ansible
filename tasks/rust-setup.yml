@@ -25,7 +25,7 @@
       - name: Verify "rustc" installation
         ansible.builtin.command: '{{ ansible_env.HOME }}/.cargo/bin/rustc --version'
         register: rustc_version
-        changed_when: true
+        changed_when: false
 
       - name: Show "rustc" installed
         ansible.builtin.debug:

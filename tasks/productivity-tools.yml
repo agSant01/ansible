@@ -5,8 +5,10 @@
       - name: 'Install developer productivity packages (tmux, tldr, fzf, etc.)'
         become: true
         ansible.builtin.apt:
-            name: ['tmux', 'xclip', 'screenkey', 'tldr', 'ripgrep', 'tree']
+            name:
+                ['tmux', 'xclip', 'screenkey', 'tldr', 'ripgrep', 'tree', 'vim']
       - name: 'Fd-find setup'
+        tags: fd
         ansible.builtin.import_tasks: productivity/fdfind.yml
       - name: 'Fzf setup'
         tags: fzf

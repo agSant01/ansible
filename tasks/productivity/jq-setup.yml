@@ -18,7 +18,7 @@
             dest: '{{ install_path }}/jq'
             mode: '0755'
 
-      - name: Verify  installation
+      - name: Verify jq installation
         ansible.builtin.command: '{{ install_path }}/jq --version'
         register: version_output
         changed_when: true
