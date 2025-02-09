@@ -1,0 +1,29 @@
+- name: Download and Install Perl dev packages
+  tags:
+      - install
+      - perl
+      - stow-bin
+  block:
+      - name: Install CPANM
+        register: cpanm_install
+        changed_when: "'Working on' in cpanm_install.stdout"
+        ansible.builtin.shell:
+            cmd: |
+                set -o pipefail |
+                curl -L https://cpanmin.us | perl - --sudo App::cpanminus
+      - name: Install Perl DEV Packages
+        register: package_install
+        changed_when: "'Working on' in package_install.stdout"
+        ansible.builtin.command:
+            cmd: 'cpanm {{ item }}'
+        with_items:
+            - Regexp::IPv6
+            - App::perlimports
+            - Config::Auto
+            - Config::General
+            - JSON
+            - Object::Pad
+            - Perl::Critic
+            - Perl::Tidy
+            - PPI
+            - Sub::Util

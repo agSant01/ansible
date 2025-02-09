@@ -16,6 +16,7 @@
             - core
   tasks:
       - ansible.builtin.import_tasks: tasks/core-setup.yml
+      - ansible.builtin.import_tasks: tasks/perl-setup.yml
       - ansible.builtin.import_tasks: tasks/stow-setup.yml
       - ansible.builtin.import_tasks: tasks/dotfiles.yml
       - ansible.builtin.import_tasks: tasks/gh-cli-setup.yml
