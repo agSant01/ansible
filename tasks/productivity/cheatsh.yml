@@ -4,8 +4,8 @@
       - name: 'Downloading cht.sh executable to .local/bin'
         ansible.builtin.get_url:
             url: https://cht.sh/:cht.sh
-            dest: '{{ ansible_env.HOME }}/.local/bin'
-            mode: '0755'
+            dest: '{{ ansible_env.HOME }}/.local/bin/cht.sh'
+            mode: '0655'
             force: true
       - name: Create if not exists autocompletion dir {{ ansible_env.HOME }}/.bash.d # noqa:name[template]
         ansible.builtin.file:
